@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Rubik", sans-serif;
+  max-width: 85%;
+  margin: 80px auto;
+  background-color: #f4f6fa;
+}
+@media screen and (max-width: 700px){
+    body{
+        max-width: 85%;
+    }
+}

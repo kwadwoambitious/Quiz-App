@@ -1,0 +1,19 @@
+<header>
+  <h2>
+    <img *ngIf="subjectImage" [src]="subjectImage" alt="{{subjectName}}" />
+    {{ subjectName }}
+  </h2>
+  <nav>
+    <div>
+      <img src="/fluent_weather-sunny-16-regular.svg" alt="sun" />
+    </div>
+    <div class="theme-toggle">
+      <!-- Update (change) event to trigger theme toggle -->
+      <input type="checkbox" id="theme-switch" class="toggle-checkbox" [(ngModel)]="isDarkMode" (change)="toggleTheme()" />
+      <label for="theme-switch" class="toggle-label"></label>
+    </div>
+    <div>
+      <img src="/fluent_weather-moon-16-regular.svg" alt="moon" />
+    </div>
+  </nav>
+</header>
