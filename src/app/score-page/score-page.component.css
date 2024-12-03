@@ -57,7 +57,7 @@ button {
   width: 100%;
   outline: none;
   border: none;
-  background-color: #a445ed;
+  background-color: #a729f5;
   color: white;
   padding: 20px;
   border-radius: 24px;
@@ -70,7 +70,7 @@ button:hover {
   background-color: #a729f58f;
   cursor: pointer;
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
   main {
     flex-direction: column;
   }
