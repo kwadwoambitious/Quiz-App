@@ -3,7 +3,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ScorePageComponent } from '../score-page/score-page.component';
-import { StartMenuComponent } from "../start-menu/start-menu.component";
+import { StartMenuComponent } from '../start-menu/start-menu.component';
 
 interface Question {
   question: string;
@@ -24,7 +24,13 @@ interface QuizData {
 @Component({
   selector: 'app-questions-container',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, HttpClientModule, ScorePageComponent, StartMenuComponent],
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    HttpClientModule,
+    ScorePageComponent,
+    StartMenuComponent,
+  ],
   templateUrl: './questions-container.component.html',
   styleUrls: ['./questions-container.component.css'],
 })
@@ -62,7 +68,7 @@ export class QuestionsContainerComponent implements OnInit {
   startQuiz() {
     this.quizCompleted = false;
     this.correctAnswers = 0; // Reset score and other variables if needed
-  } 
+  }
   // Method to complete the quiz
   completeQuiz(correctAnswers: number) {
     this.correctAnswers = correctAnswers;
@@ -75,12 +81,13 @@ export class QuestionsContainerComponent implements OnInit {
   }
 
   private filterQuiz(): void {
-    this.selectedQuiz =
-      this.quizzes.find((quiz) => quiz.title === this.subject) || {
-        title: '',
-        icon: '',
-        questions: [],
-      };
+    this.selectedQuiz = this.quizzes.find(
+      (quiz) => quiz.title === this.subject
+    ) || {
+      title: '',
+      icon: '',
+      questions: [],
+    };
   }
 
   get isLastQuestion(): boolean {

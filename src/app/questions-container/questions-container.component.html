@@ -15,6 +15,11 @@
           <h2 class="question">
             {{ selectedQuiz.questions[currentQuestionIndex].question }}
           </h2>
+          <progress
+            class="progress-bar"
+            value="{{ currentQuestionIndex + 1 }}"
+            max="{{ selectedQuiz.questions.length }}"
+          ></progress>
         </div>
 
         <div class="options">
