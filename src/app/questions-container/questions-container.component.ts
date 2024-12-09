@@ -42,12 +42,12 @@ export class QuestionsContainerComponent implements OnInit {
     icon: '',
     questions: [],
   };
-  currentQuestionIndex: number = 0;
+  currentQuestionIndex = 0;
   selectedAnswer: string | null = null;
   errorMessage: string | null = null;
 
-  quizCompleted: boolean = false; // State to track if the quiz is completed
-  correctAnswers: number = 0; // To track the number of correct answers
+  quizCompleted = false; // State to track if the quiz is completed
+  correctAnswers = 0; // To track the number of correct answers
 
   constructor(private http: HttpClient) {}
 

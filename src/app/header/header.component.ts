@@ -1,20 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  @Input() subjectName: string = '';  
+  @Input() subjectName: string = '';
   @Input() subjectImage: string = '';
-  isDarkMode = false; 
-
-  constructor() {}
+  isDarkMode = false;
 
   ngOnInit(): void {
     // Apply the correct theme on component load based on the stored state
@@ -34,17 +32,4 @@ export class HeaderComponent {
   toggleTheme() {
     this.applyTheme();
   }
-
-  // Optional: Load the user's theme preference from localStorage
-  // ngOnInit() {
-  //   const savedTheme = localStorage.getItem('theme');
-  //   if (savedTheme) {
-  //     this.isDarkMode = savedTheme === 'dark';
-  //   }
-  // }
-
-  // ngOnChanges() {
-  //   localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
-  // }
-  
 }
