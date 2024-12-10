@@ -36,7 +36,6 @@
   }"
               (click)="selectOption(option)"
             >
-              <!-- Hide the radio button visually -->
               <input
                 type="radio"
                 name="question-{{ currentQuestionIndex }}"
@@ -44,7 +43,6 @@
                 [value]="option"
                 [disabled]="isOptionDisabled()"
               />
-              <!-- Add the alphabet dynamically -->
               <div
                 class="option"
                 [ngClass]="{
@@ -76,14 +74,12 @@
             {{ isLastQuestion ? "Submit Answer" : "Next Question" }}
           </button>
           <p *ngIf="errorMessage" class="no-answer-error">
-            <img src="/fluent_dismiss-circle-16-regular.svg" />
-            <span class="error-meesage"> {{ errorMessage }}</span>
+            <img src="/fluent_dismiss-circle-16-regular.svg" alt="dismiss-circle"/>
+            <span class="error-message"> {{ errorMessage }}</span>
           </p>
         </div>
       </div>
     </div>
-
-    <!-- If no quiz is found for the selected subject -->
     <div *ngIf="!selectedQuiz">
       <p>Please select a valid subject to view the quiz questions.</p>
     </div>

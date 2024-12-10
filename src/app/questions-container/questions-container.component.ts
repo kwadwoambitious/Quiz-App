@@ -3,7 +3,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ScorePageComponent } from '../score-page/score-page.component';
-import { StartMenuComponent } from '../start-menu/start-menu.component';
 
 interface Question {
   question: string;
@@ -29,58 +28,41 @@ interface QuizData {
     HeaderComponent,
     HttpClientModule,
     ScorePageComponent,
-    StartMenuComponent,
   ],
   templateUrl: './questions-container.component.html',
   styleUrls: ['./questions-container.component.css'],
 })
 export class QuestionsContainerComponent implements OnInit {
-  @Input() subject: string = '';
-  quizzes: Quiz[] = [];
-  @Input() selectedQuiz: Quiz = {
+  @Input() public subject = '';
+  public quizzes: Quiz[] = [];
+  @Input() public selectedQuiz: Quiz = {
     title: '',
     icon: '',
     questions: [],
   };
-  currentQuestionIndex = 0;
-  selectedAnswer: string | null = null;
-  errorMessage: string | null = null;
+  public currentQuestionIndex = 0;
+  public selectedAnswer: string | null = null;
+  public errorMessage: string | null = null;
 
-  quizCompleted = false; // State to track if the quiz is completed
-  correctAnswers = 0; // To track the number of correct answers
+  public quizCompleted = false;
+  public correctAnswers = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(readonly http: HttpClient) {}
 
-  ngOnInit(): void {
+  public ngOnInit() {
     this.http.get<QuizData>('/data.json').subscribe((data) => {
       this.quizzes = data.quizzes;
       this.filterQuiz();
     });
   }
 
-  ngOnChanges(): void {
+  public ngOnChanges() {
     if (this.subject) {
       this.filterQuiz();
     }
   }
 
-  // Method to start the quiz
-  startQuiz() {
-    this.quizCompleted = false;
-    this.correctAnswers = 0; // Reset score and other variables if needed
-  }
-  // Method to complete the quiz
-  completeQuiz(correctAnswers: number) {
-    this.correctAnswers = correctAnswers;
-    this.quizCompleted = true;
-  }
-
-  // Method to handle play again event
-  onPlayAgain() {
-    this.startQuiz(); // Reset quiz and go back to start menu
-  }
-
-  private filterQuiz(): void {
+  private filterQuiz() {
     this.selectedQuiz = this.quizzes.find(
       (quiz) => quiz.title === this.subject
     ) || {
@@ -90,43 +72,41 @@ export class QuestionsContainerComponent implements OnInit {
     };
   }
 
-  get isLastQuestion(): boolean {
+  public get isLastQuestion() {
     return this.selectedQuiz
       ? this.currentQuestionIndex === this.selectedQuiz.questions.length - 1
       : false;
   }
 
-  selectOption(option: string): void {
+  public selectOption(option: string) {
     this.selectedAnswer = option;
     this.errorMessage = null;
 
-    // Increment the correct answer count if the option is correct
     if (this.isCorrect(option)) {
       this.correctAnswers++;
     }
   }
 
-  isCorrect(option: string): boolean {
+  public isCorrect(option: string) {
     return (
       this.selectedQuiz.questions[this.currentQuestionIndex].answer === option
     );
   }
 
-  getOptionLabel(index: number): string {
+  public getOptionLabel(index: number) {
     return String.fromCharCode(65 + index);
   }
 
-  isOptionDisabled(): boolean {
+  public isOptionDisabled() {
     return this.selectedAnswer !== null;
   }
 
-  handleSubmit(): void {
+  public handleSubmit() {
     if (this.selectedAnswer) {
       if (!this.isLastQuestion) {
         this.currentQuestionIndex++;
         this.selectedAnswer = null;
       } else {
-        // Mark quiz as completed
         this.quizCompleted = true;
       }
     } else {
