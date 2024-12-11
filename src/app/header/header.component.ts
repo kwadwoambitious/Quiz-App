@@ -10,15 +10,15 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  @Input() public subjectName = '';
-  @Input() public subjectImage = '';
+  @Input() subjectName: string | undefined;
+  @Input() subjectImage: string | undefined;
   public isDarkMode = false;
 
-  public ngOnInit() {
+  ngOnInit(): void {
     this.applyTheme();
   }
 
-  private applyTheme() {
+  private applyTheme(): void {
     if (this.isDarkMode) {
       document.body.classList.add('dark-mode');
     } else {
@@ -26,7 +26,7 @@ export class HeaderComponent {
     }
   }
 
-  public toggleTheme() {
+  public toggleTheme(): void {
     this.applyTheme();
   }
 }

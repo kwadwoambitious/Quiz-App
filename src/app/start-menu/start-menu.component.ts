@@ -9,9 +9,9 @@ import { HeaderComponent } from '../header/header.component';
   styleUrls: ['./start-menu.component.css'],
 })
 export class StartMenuComponent {
-  @Output() public subjectSelected = new EventEmitter<string>();
+  @Output() subjectSelected = new EventEmitter<string>();
 
-  public selectSubject(subject: string) {
+  public selectSubject(subject: string): void {
     this.subjectSelected.emit(subject);
   }
 }

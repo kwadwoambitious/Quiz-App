@@ -9,8 +9,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './score-page.component.css',
 })
 export class ScorePageComponent {
-  @Input() public correctAnswers = 0;
-  @Input() public totalQuestions = 0;
-  @Input() public subjectName = '';
-  @Input() public subjectImage = '';
+  @Input() correctAnswers = 0;
+  @Input() totalQuestions = 0;
+  @Input() subjectName: string | undefined;
+  @Input() subjectImage: string | undefined;
 }

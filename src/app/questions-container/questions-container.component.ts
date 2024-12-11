@@ -1,84 +1,54 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ScorePageComponent } from '../score-page/score-page.component';
-
-interface Question {
-  question: string;
-  options: string[];
-  answer: string;
-}
-
-interface Quiz {
-  title: string;
-  icon: string;
-  questions: Question[];
-}
-
-interface QuizData {
-  quizzes: Quiz[];
-}
+import { QuizService } from '../quiz.service';
+import { Quiz } from '../interfaces';
 
 @Component({
   selector: 'app-questions-container',
   standalone: true,
-  imports: [
-    CommonModule,
-    HeaderComponent,
-    HttpClientModule,
-    ScorePageComponent,
-  ],
+  imports: [CommonModule, HeaderComponent, ScorePageComponent],
   templateUrl: './questions-container.component.html',
   styleUrls: ['./questions-container.component.css'],
 })
-export class QuestionsContainerComponent implements OnInit {
-  @Input() public subject = '';
-  public quizzes: Quiz[] = [];
-  @Input() public selectedQuiz: Quiz = {
-    title: '',
-    icon: '',
-    questions: [],
-  };
-  public currentQuestionIndex = 0;
-  public selectedAnswer: string | null = null;
-  public errorMessage: string | null = null;
+export class QuestionsContainerComponent {
+  @Input() subject = '';
+  quizzes: Quiz[] = [];
+  @Input() selectedQuiz: Quiz | undefined;
+  currentQuestionIndex = 0;
+  selectedAnswer: string | null = null;
+  errorMessage: string | null = null;
 
-  public quizCompleted = false;
-  public correctAnswers = 0;
+  quizCompleted = false;
+  correctAnswers = 0;
 
-  constructor(readonly http: HttpClient) {}
-
-  public ngOnInit() {
-    this.http.get<QuizData>('/data.json').subscribe((data) => {
+  constructor(private quizService: QuizService) {
+    this.quizService.getQuizzes().subscribe((data) => {
       this.quizzes = data.quizzes;
-      this.filterQuiz();
     });
   }
 
-  public ngOnChanges() {
+  ngOnChanges(): void {
     if (this.subject) {
       this.filterQuiz();
     }
   }
 
-  private filterQuiz() {
-    this.selectedQuiz = this.quizzes.find(
-      (quiz) => quiz.title === this.subject
-    ) || {
-      title: '',
-      icon: '',
-      questions: [],
-    };
+  private filterQuiz(): void {
+    this.selectedQuiz = this.quizService.filterQuizBySubject(
+      this.quizzes,
+      this.subject
+    );
   }
 
-  public get isLastQuestion() {
-    return this.selectedQuiz
-      ? this.currentQuestionIndex === this.selectedQuiz.questions.length - 1
-      : false;
+  public get isLastQuestion(): boolean {
+    return (
+      this.selectedQuiz?.questions.length === this.currentQuestionIndex + 1
+    );
   }
 
-  public selectOption(option: string) {
+  public selectOption(option: string): void {
     this.selectedAnswer = option;
     this.errorMessage = null;
 
@@ -87,21 +57,21 @@ export class QuestionsContainerComponent implements OnInit {
     }
   }
 
-  public isCorrect(option: string) {
+  public isCorrect(option: string): boolean {
     return (
-      this.selectedQuiz.questions[this.currentQuestionIndex].answer === option
+      this.selectedQuiz?.questions[this.currentQuestionIndex].answer === option
     );
   }
 
-  public getOptionLabel(index: number) {
+  public getOptionLabel(index: number): string {
     return String.fromCharCode(65 + index);
   }
 
-  public isOptionDisabled() {
+  public isOptionDisabled(): boolean {
     return this.selectedAnswer !== null;
   }
 
-  public handleSubmit() {
+  public handleSubmit(): void {
     if (this.selectedAnswer) {
       if (!this.isLastQuestion) {
         this.currentQuestionIndex++;
